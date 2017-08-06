@@ -31,6 +31,7 @@ gem 'carrierwave'
 gem "will_paginate"
 gem 'ransack'
 gem 'seo_helper'
+gem 'nested_form_fields'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

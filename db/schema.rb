@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170205120306) do
+ActiveRecord::Schema.define(version: 20170805123605) do
 
   create_table "favor_job_relationships", force: :cascade do |t|
     t.integer  "job_id"
@@ -28,6 +28,16 @@ ActiveRecord::Schema.define(version: 20170205120306) do
     t.integer  "wage_lower_bound"
     t.string   "contact_email"
     t.boolean  "is_hidden",        default: true
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.integer  "job_id"
+    t.string   "city"
+    t.string   "address"
+    t.integer  "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_id"], name: "index_locations_on_job_id"
   end
 
   create_table "resumes", force: :cascade do |t|

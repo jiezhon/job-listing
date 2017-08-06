@@ -13,6 +13,7 @@ class Admin::JobsController < ApplicationController
 
   def new
     @job = Job.new
+    @job.locations.build
   end
 
   def create
@@ -27,6 +28,7 @@ class Admin::JobsController < ApplicationController
 
   def edit
     @job = Job.find(params[:id])
+    @job.locations.build if @job.locations.empty?
   end
 
   def update
@@ -59,7 +61,8 @@ class Admin::JobsController < ApplicationController
 
   private
   def job_params
-    params.require(:job).permit(:title, :description, :wage_lower_bound, :wage_upper_bound, :contact_email, :is_hidden)
+    params.require(:job).permit(:title, :description, :wage_lower_bound, :wage_upper_bound, :contact_email, :is_hidden,
+                                :locations_attributes => [:id, :city, :address, :quantity, :_destroy])
   end
 
 end

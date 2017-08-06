@@ -9,6 +9,9 @@ class Job < ApplicationRecord
   has_many :favor_job_relationships
   has_many :followers, through: :favor_job_relationships, source: :user
 
+  has_many :locations, :dependent => :destroy, :inverse_of => :job
+  accepts_nested_attributes_for :locations, :allow_destroy => true, :reject_if => :all_blank
+
   def publish!
     self.is_hidden = false
     self.save
