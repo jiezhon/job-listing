@@ -1,5 +1,7 @@
 <%= f.input :title %>
-<%= f.input :description %>
+<%#= f.input :description %>
+<%#= f.input :description, as: :ckeditor => { language: 'zh-CN' } %>
+<%= f.cktext_area :description, ckeditor: { toolbar: 'mini', language: 'zh-CN'} %>
 <%= f.input :wage_lower_bound, :label => "Wage From" %>
 <%= f.input :wage_upper_bound, :label => "Wage To"%>
 <%= f.input :contact_email %>
