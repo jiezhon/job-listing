@@ -2,8 +2,10 @@
   <%= link_to("Add New Job", new_admin_job_path, :class => "btn btn-default btn-info") %>
 </div>
 
+<%= form_tag bulk_update_admin_jobs_path, :class => "form-inline" do %>
 <table class="table table-boldered table-striped custab">
   <thead>
+    <td><%= check_box_tag "All", "1", false, :id => "toggle_all" %></td>
     <td>Job Title</td>
     <td>Admin Options</td>
     <td>Wage From</td>
@@ -14,6 +16,9 @@
   </thead>
   <% @jobs.each do |job| %>
   <tr>
+    <td>
+      <%= check_box_tag "ids[]", job.id %>
+    </td>
     <td>
       <%= render_job_status(job) %>
       <%= link_to(job.title, admin_job_path(job)) %></td>
@@ -36,3 +41,19 @@
   </tr>
   <% end %>
 </table>
+<p>
+  <%= select_tag :job_is_hidden,  options_for_select([ ["Hidden", true], ["Publish", false]]) ,  :class => "form-control" %>
+  <%= submit_tag t(:bulk_update), :class => "btn btn-primary" %>
+  <%= submit_tag t(:bulk_delete), :class => "btn btn-danger", :data => { :confirm => "Are you sure?" } %>
+</p>
+<% end %>
+
+<script>
+  $("#toggle_all").click(function(){
+    if ($(this).prop("checked")) {
+      $("input[name='ids[]']").prop("checked", true);
+    } else {
+      $("input[name='ids[]']").prop("checked", false);
+    }
+  })
+</script>

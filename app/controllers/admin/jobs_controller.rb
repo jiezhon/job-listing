@@ -59,6 +59,25 @@ class Admin::JobsController < ApplicationController
     redirect_to :back
   end
 
+  def bulk_update
+    total = 0
+    Array(params[:ids]).each do |job_id|
+      job = Job.find(job_id)
+      if params[:commit] == I18n.t(:bulk_update)
+        job.is_hidden = params[:job_is_hidden]
+        if job.save
+          total += 1
+        end
+      else
+        job.destroy
+        total += 1
+      end
+    end
+
+    flash[:alert] = "Successfully processed #{total} Jobs"
+    redirect_to admin_jobs_path
+  end
+
   private
   def job_params
     params.require(:job).permit(:title, :description, :wage_lower_bound, :wage_upper_bound, :contact_email, :is_hidden,

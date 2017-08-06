@@ -20,6 +20,10 @@ Rails.application.routes.draw do
         post :hide
       end
 
+      collection do
+        post :bulk_update
+      end
+
       resources :resumes
     end
   end

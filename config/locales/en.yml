@@ -21,3 +21,7 @@
 
 en:
   hello: "Hello world"
+  bulk_update: "Batch Update"
+  bulk_delete: "Batch Delete"
+  publish: "Publish"
+  hidden: "Hidden"
