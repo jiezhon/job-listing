@@ -33,6 +33,8 @@ gem 'ransack'
 gem 'seo_helper'
 gem 'nested_form_fields'
 gem 'ckeditor'
+gem 'ranked-model'
+gem 'jquery-ui-rails'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

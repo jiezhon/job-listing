@@ -12,6 +12,9 @@ class Job < ApplicationRecord
   has_many :locations, :dependent => :destroy, :inverse_of => :job
   accepts_nested_attributes_for :locations, :allow_destroy => true, :reject_if => :all_blank
 
+  include RankedModel
+  ranks :row_order
+
   def publish!
     self.is_hidden = false
     self.save

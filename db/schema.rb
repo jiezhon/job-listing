@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170805123605) do
+ActiveRecord::Schema.define(version: 20170810134529) do
 
   create_table "favor_job_relationships", force: :cascade do |t|
     t.integer  "job_id"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 20170805123605) do
     t.integer  "wage_lower_bound"
     t.string   "contact_email"
     t.boolean  "is_hidden",        default: true
+    t.integer  "row_order"
+    t.index ["row_order"], name: "index_jobs_on_row_order"
   end
 
   create_table "locations", force: :cascade do |t|

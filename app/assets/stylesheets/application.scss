@@ -19,6 +19,7 @@
 @import "bootstrap";
 @import "font-awesome";
 @import url(http://fonts.googleapis.com/css?family=Roboto);
+@import "jquery-ui";
 
 body {
     //background: #e2dede;
@@ -271,4 +272,12 @@ body {
 .btn-danger:hover {
     background-color: #E65100;
     border-color: #E65100;
+}
+
+.sortable .sortable_icon {
+  border: none;
+  color: #ECECEC;
+  font-size: 20px;
+  cursor: move;
+  padding-right: 10px;
 }

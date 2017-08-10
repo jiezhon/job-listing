@@ -19,3 +19,4 @@
 //= require bootstrap/dropdown
 //= require bootstrap/modal
 //= require ckeditor/init
+//= require jquery-ui

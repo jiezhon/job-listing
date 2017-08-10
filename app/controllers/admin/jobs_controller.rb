@@ -4,7 +4,7 @@ class Admin::JobsController < ApplicationController
   layout "admin"
 
   def index
-    @jobs = Job.all
+    @jobs = Job.rank(:row_order).all
   end
 
   def show
@@ -76,6 +76,18 @@ class Admin::JobsController < ApplicationController
 
     flash[:alert] = "Successfully processed #{total} Jobs"
     redirect_to admin_jobs_path
+  end
+
+  def reorder
+    @job = Job.find(params[:id])
+    @job.row_order_position = params[:position]
+    @job.save!
+
+    #redirect_to admin_jobs_path
+    respond_to do |format|
+      format.html { redirect_to admin_jobs_path }
+      format.json { render :json => { :message => "ok" }}
+    end
   end
 
   private

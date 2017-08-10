@@ -14,32 +14,39 @@
     <td>Followers Count</td>
     <td>Creation Date</td>
   </thead>
-  <% @jobs.each do |job| %>
-  <tr>
-    <td>
-      <%= check_box_tag "ids[]", job.id %>
-    </td>
-    <td>
-      <%= render_job_status(job) %>
-      <%= link_to(job.title, admin_job_path(job)) %></td>
-    <td>
-      <%= link_to edit_admin_job_path(job), class: 'btn btn-info btn-xs' do %><i class="fa fa-pencil"></i><% end %>
-      <%= link_to admin_job_path(job), :method => :delete, :data => {:confirm => "Are your sure?" }, class: 'btn btn-danger btn-xs' do %>
-        <i class="fa fa-trash-o"></i>
-      <% end %>
-      <% if job.is_hidden %>
-        <%= link_to publish_admin_job_path(job), :method => :post, :class => "btn btn-xs btn-success" do %><i class="fa fa-eye"></i><% end %>
-      <% else %>
-        <%= link_to hide_admin_job_path(job), :method => :post, :class => "btn btn-xs btn-warning" do %><i class="fa fa-eye-slash"></i><% end %>
-      <% end %>
-    </td>
-    <td><%= job.wage_lower_bound %></td>
-    <td><%= job.wage_upper_bound %></td>
-    <td><%= link_to(job.resumes.count, admin_job_resumes_path(job)) %></td>
-    <td><%= job.followers.count %></td>
-    <td><%= job.created_at %></td>
-  </tr>
-  <% end %>
+  <tbody class="sortable">
+    <% @jobs.each do |job| %>
+    <tr data-reorder-url="<%= reorder_admin_job_path(job) %>">
+      <td>
+        <%= check_box_tag "ids[]", job.id %>
+      </td>
+      <td>
+        <span class="sortable_icon">☰</span>
+        <%= render_job_status(job) %>
+        <%= link_to(job.title, admin_job_path(job)) %>
+      </td>
+      <td>
+        <%= link_to "Top", reorder_admin_job_path(job, :position => :first), :method => :post, :class => "btn btn-xs btn-default" %>
+        <%= link_to "Bottom", reorder_admin_job_path(job, :position => :last), :method => :post, :class => "btn btn-xs btn-default" %>
+        <%= link_to edit_admin_job_path(job), class: 'btn btn-info btn-xs' do %><i class="fa fa-pencil"></i><% end %>
+        <%= link_to admin_job_path(job), :method => :delete, :data => {:confirm => "Are your sure?" }, class: 'btn btn-danger btn-xs' do %>
+          <i class="fa fa-trash-o"></i>
+        <% end %>
+        <% if job.is_hidden %>
+          <%= link_to publish_admin_job_path(job), :method => :post, :class => "btn btn-xs btn-success" do %><i class="fa fa-eye"></i><% end %>
+        <% else %>
+          <%= link_to hide_admin_job_path(job), :method => :post, :class => "btn btn-xs btn-warning" do %><i class="fa fa-eye-slash"></i><% end %>
+        <% end %>
+      </td>
+      <td><%= job.wage_lower_bound %></td>
+      <td><%= job.wage_upper_bound %></td>
+      <td><%= link_to(job.resumes.count, admin_job_resumes_path(job)) %></td>
+      <td><%= job.followers.count %></td>
+      <td><%= job.created_at %></td>
+    </tr>
+    <% end %>
+  </tbody>
+
 </table>
 <p>
   <%= select_tag :job_is_hidden,  options_for_select([ ["Hidden", true], ["Publish", false]]) ,  :class => "form-control" %>
@@ -56,4 +63,24 @@
       $("input[name='ids[]']").prop("checked", false);
     }
   })
+
+  $( ".sortable" ).sortable({
+    axis: 'y',       // 限制只能上下拖拉
+    items: 'tr',     // 拖拉整个 tr
+    cursor: 'move',  // 变更拖拉时的 icon
+    handle: ".sortable_icon",  // 限制只有点 ☰ 才能开始拖拉，砍掉这行的话，会是整个 tr 都可以进行拖拉，你可以试试看
+    stop: function(e, ui){     // 当拖拉结束时，会调用这个方法
+      ui.item.children('td').effect('highlight', {}, 1000)
+    },
+    update: function(e, ui) {   // 当拖拉结束并且 DOM 上的位置变更时，会调用这个方法
+      reorder_url = ui.item.data('reorder-url')
+      position = ui.item.index()  // 取得顺序
+      $.ajax({
+       type: 'POST',
+       url: reorder_url,
+       dataType: 'json',
+       data: { position: position }
+      })
+    }
+  });
 </script>
