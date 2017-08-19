@@ -1,22 +1,47 @@
-<%= f.input :title %>
+<div class="form-group">
+  <%= f.label :title, "Title", :class => "control-label" %>
+  <%= f.text_field :title, :class => "form-control", :required => true, :autofocus => true %>
+  <div class="help-block with-errors"></div>
+</div>
 <%#= f.input :description %>
 <%#= f.input :description, as: :ckeditor => { language: 'zh-CN' } %>
-<%= f.cktext_area :description, ckeditor: { toolbar: 'mini', language: 'zh-CN'} %>
-<%= f.input :wage_lower_bound, :label => "Wage From" %>
-<%= f.input :wage_upper_bound, :label => "Wage To"%>
-<%= f.input :contact_email %>
-<%= f.input :is_hidden %>
+<div class="form-group">
+  <%= f.label :description, "Description", :class => "control-label" %>
+  <%= f.cktext_area :description, ckeditor: { toolbar: 'mini', language: 'zh-CN'} %>
+</div>
+<div class="form-group">
+  <%= f.label :wage_lower_bound, "Wage From", :class => "control-label" %>
+  <%= f.number_field :wage_lower_bound, :class => "form-control", :required => true %>
+  <div class="help-block with-errors"></div>
+</div>
+<div class="form-group">
+  <%= f.label :wage_upper_bound, "Wage To", :class => "control-label" %>
+  <%= f.number_field :wage_upper_bound, :class => "form-control" %>
+</div>
+<div class="form-group">
+  <%= f.label :contact_email, "Contact Email", :class => "control-label" %>
+  <%= f.email_field :contact_email, :class => "form-control" %>
+  <div class="help-block with-errors"></div>
+</div>
+<div class="form-group">
+  <%= f.check_box :is_hidden %>
+  <%= f.label :is_hidden, "Is hidden?" %>
+</div>
 
 <%= f.nested_fields_for :locations do |ff| %>
   <fieldset style="border-left: 5px solid #bbb; margin-bottom: 10px; padding: 10px;">
     <legend>Location</legend>
     <div class="form-group">
       <%= ff.label :city %>
-      <%= ff.text_field :city, :class => "form-control" %>
+      <%= ff.text_field :city, :class => "form-control", :required => true  %>
+
+      <div class="help-block with-errors"></div>
     </div>
     <div class="form-group">
       <%= ff.label :quantity %>
-      <%= ff.number_field :quantity, :class => "form-control" %>
+      <%= ff.number_field :quantity, :class => "form-control", :required => true  %>
+
+      <div class="help-block with-errors"></div>
     </div>
     <div class="form-group">
       <%= ff.label :address %>
