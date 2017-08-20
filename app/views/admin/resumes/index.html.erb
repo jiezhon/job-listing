@@ -8,8 +8,9 @@
     <thead>
       <tr style="font-size: 15px;">
         <td>ID</td>
-        <td>Job Title</td>
+        <td>Job Location</td>
         <td>Name</td>
+        <td>Status</td>
         <td>E-mail</td>
         <td>Creation Date</td>
         <td>Actions</td>
@@ -19,10 +20,11 @@
       <% @resumes.each do |r| %>
         <tr>
           <td><%= r.id %></td>
-          <td><%= @job.title %></td>
+          <td><%= r.location.city %></td>
           <td><%= r.name %></td>
+          <td><%= t(r.status, :scope => "r.status") %></td>
           <td><%= r.email %></td>
-          <td><%= r.created_at %></td>
+          <td><%= r.created_at.to_s(:long) %></td>
           <td>
             <%= link_to "Edit", edit_admin_job_resume_path(@job, r), :class => "btn btn-default" %>
             <%= link_to "Delete", admin_job_resume_path(@job, r), :method => "delete", :data => { :confirm => "Are you sure?" }, :class => "btn btn-danger" %>
@@ -31,6 +33,8 @@
       <% end %>
     </tbody>
 </table>
+<%= paginate @resumes %>
+
   <div class="pull-right" style="margin-top: 10px; margin-bottom:10px;">
     <%= link_to "Back", admin_jobs_path, class: "btn btn-primary" %>
   </div>

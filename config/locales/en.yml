@@ -25,3 +25,7 @@ en:
   bulk_delete: "Batch Delete"
   publish: "Publish"
   hidden: "Hidden"
+  resume:
+    status:
+      pending: Pending
+      confirmed: Confirmed

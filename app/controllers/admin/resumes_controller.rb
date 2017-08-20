@@ -6,7 +6,7 @@ class Admin::ResumesController < ApplicationController
 
   def index
     # @job = Job.find(params[:job_id])
-    @resumes = @job.resumes.order('created_at DESC')
+    @resumes = @job.resumes.order('created_at DESC').page(params[:page])
   end
 
   def edit
@@ -15,7 +15,8 @@ class Admin::ResumesController < ApplicationController
 
   def update
     @resume = @job.resumes.find_by_uuid(params[:id])
-
+    @resume.status = "confirmed"
+    
     if @resume.update(resume_params)
       redirect_to admin_job_resumes_path(@job)
     else
@@ -32,7 +33,7 @@ class Admin::ResumesController < ApplicationController
 
   private
   def resume_params
-    params.require(:resume).permit(:content, :attachment, :name, :email, :cellphone)
+    params.require(:resume).permit(:content, :attachment, :name, :email, :cellphone, :location_id)
   end
 
   def find_job

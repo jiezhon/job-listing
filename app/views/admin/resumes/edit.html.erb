@@ -5,6 +5,7 @@
   <hr>
   <div class="form-group" style="width: 1000px; ">
     <%= simple_form_for [:admin, @job, @resume] do |f| %>
+      <%= f.input :location_id, :collection => @job.locations.map{ |l| [l.city, l.id] } %>
       <%= f.input :name %>
       <%= f.input :email %>
       <%= f.input :cellphone %>

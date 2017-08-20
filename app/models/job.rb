@@ -3,7 +3,7 @@ class Job < ApplicationRecord
   validates :wage_lower_bound, presence: true
   validates :wage_lower_bound, numericality: { greater_than: 0}
 
-  has_many :resumes
+  has_many :resumes, :dependent => :destroy
   has_many :candidates, through: :resumes, source: :user
 
   has_many :favor_job_relationships

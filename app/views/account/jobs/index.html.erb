@@ -5,7 +5,9 @@
   <table class="table table-boldered table-striped custab">
     <thead>
       <tr style="font-size: 15px;">
+        <td>Status</td>
         <td>Job Title</td>
+        <td>City</td>
         <td>Apply Content</td>
         <td>Apply Date</td>
       </tr>
@@ -15,7 +17,14 @@
         <tr>
           <!-- <td><%#= link_to(job.title, job_path(job)) %></td> -->
           <td>
-            <%= resume.title %>
+            <%= t(resume.status, :scope => "resume.status") %>
+          </td>
+          <td>
+            <%#= resume.title %>
+            <%= resume.job.title %>
+          </td>
+          <td>
+            <%= resume.location.city %>
           </td>
           <td>
             <%= resume.content %>
