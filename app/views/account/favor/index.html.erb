@@ -14,7 +14,7 @@
         <tr>
           <td><%= link_to(job.title, job_path(job)) %></td>
           <td>
-            <%= job.description %>
+            <%= sanitize job.description %>
           </td>
 
         </tr>

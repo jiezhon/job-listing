@@ -3,8 +3,34 @@
 
   <hr>
 
-  <%= render :partial => "resume", :collection => @resumes, :as => :resume %>
-
+  <%#= render :partial => "resume", :collection => @resumes, :as => :resume %>
+  <table class="table table-boldered">
+    <thead>
+      <tr style="font-size: 15px;">
+        <td>ID</td>
+        <td>Job Title</td>
+        <td>Name</td>
+        <td>E-mail</td>
+        <td>Creation Date</td>
+        <td>Actions</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @resumes.each do |r| %>
+        <tr>
+          <td><%= r.id %></td>
+          <td><%= @job.title %></td>
+          <td><%= r.name %></td>
+          <td><%= r.email %></td>
+          <td><%= r.created_at %></td>
+          <td>
+            <%= link_to "Edit", edit_admin_job_resume_path(@job, r), :class => "btn btn-default" %>
+            <%= link_to "Delete", admin_job_resume_path(@job, r), :method => "delete", :data => { :confirm => "Are you sure?" }, :class => "btn btn-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+</table>
   <div class="pull-right" style="margin-top: 10px; margin-bottom:10px;">
     <%= link_to "Back", admin_jobs_path, class: "btn btn-primary" %>
   </div>
