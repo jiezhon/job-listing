@@ -15,6 +15,9 @@ class Resume < ApplicationRecord
 
   before_validation :generate_uuid, :on => :create
 
+  scope :by_status, ->(s){ where( :status => s ) }
+  scope :by_location, ->(l){ where( :location_id => l ) }
+
   def to_param
     self.uuid
   end

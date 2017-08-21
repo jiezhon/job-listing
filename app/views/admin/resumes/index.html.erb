@@ -3,6 +3,40 @@
 
   <hr>
 
+  <div class="submenu">
+    <div class="btn-group">
+      <%= link_to "All (#{@job.resumes.size})", admin_job_resumes_path(resume_filters(:status => nil)), :class => "btn btn-success btn-group #{(params[:status].blank?) ? "active" : ""}" %>
+      <% Resume::STATUS.each do |s| %>
+        <%= link_to t(s, :scope => "resume.status") + " (#{@job.resumes.by_status(s).size}) ", admin_job_resumes_path(resume_filters(:status => s)), :class => "btn btn-success btn-group #{(params[:status] == s) ? "active" : ""}" %>
+      <% end %>
+    </div>
+
+    <div class="btn-group">
+      <%= link_to "All (#{@job.resumes.size})", admin_job_resumes_path(resume_filters(:location_id => nil)), :class => "btn btn-default btn-group #{(params[:location_id].blank?) ? "active" : ""}" %>
+      <% @job.locations.each do |l| %>
+        <%= link_to l.city + " (#{@job.resumes.by_location(l).size})", admin_job_resumes_path(resume_filters(:location_id => l)), :class => "btn btn-default btn-group #{(params[:location_id] == l.id) ? "active" : ""}" %>
+      <% end %>
+    </div>
+  </div>
+
+  <%#= form_tag admin_job_resumes_path(@job), :method => :get do %>
+  <%= search_form_for @q, :url => admin_job_resumes_path(@job) do |f| %>
+    <p><% Resume::STATUS.each do |s| %>
+      <label><%= check_box_tag "statuses[]", s, Array(params[:statuses]).include?(s) %> <%= t(s, :scope => "resume.status") %> (<%= @job.resumes.by_status(s).size %>)</label>
+      <% end %></p>
+      <p><% @job.locations.each do |l| %>
+        <label><%= check_box_tag "location_ids[]", l.id, Array(params[:location_ids]).include?(l) %> <%= l.city %> (<%= @job.resumes.by_location(l.id).size %>)</label>
+        <% end %></p>
+    <p><%= f.search_field :name_cont, :placeholder => "Name", :class => "form-control" %></p>
+    <p><%= f.search_field :email_cont, :placeholder => "E-mail", :class => "form-control" %></p>
+    <p><%= text_field_tag :resume_id, params[:resume_id], :placeholder => "Resume ID, can be seperate by ,", :class => "form-control" %></p>
+    <p>
+      Resume Submit Date: <%= date_field_tag :start_on, params[:start_on] %>~<%= date_field_tag :end_on, params[:end_on] %>
+    </p>
+    <p class="text-right">
+      <%= submit_tag "Filter", :class => "btn btn-primary" %>
+    </p>
+  <% end %>
   <%#= render :partial => "resume", :collection => @resumes, :as => :resume %>
   <table class="table table-boldered">
     <thead>
